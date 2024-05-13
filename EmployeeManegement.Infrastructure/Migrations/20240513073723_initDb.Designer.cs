@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManegement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240510061653_InitDb")]
-    partial class InitDb
+    [Migration("20240513073723_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,22 +43,22 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ed7392fc-b1f3-4b89-935d-a9dd4bd6fb41"),
+                            Id = new Guid("bbfb665f-49a9-4cff-bf12-9cf019ffb9b6"),
                             Name = "Software Development"
                         },
                         new
                         {
-                            Id = new Guid("1def100b-e1e9-4aef-b534-839d5e7ee4a7"),
+                            Id = new Guid("8b68641b-9f8e-44aa-8c17-4045448207db"),
                             Name = "Finance"
                         },
                         new
                         {
-                            Id = new Guid("b0f12c80-3ff3-4cf9-a814-a789292722d9"),
+                            Id = new Guid("df9614b6-be5d-41e5-aaca-286ed8529fbf"),
                             Name = "Accountant"
                         },
                         new
                         {
-                            Id = new Guid("b2410611-bb5b-4e02-afdf-b40008a31332"),
+                            Id = new Guid("7eaa3433-27a6-4fa4-963a-2d07263fb4c2"),
                             Name = "HR"
                         });
                 });
@@ -118,7 +118,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ProjectEmployee");
+                    b.ToTable("ProjectEmployees");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Salary", b =>
@@ -138,7 +138,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("Salary");
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
@@ -159,7 +159,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("EmployeeManegement.Entities.Models.Project", "Project")
-                        .WithMany("EmployeeProjects")
+                        .WithMany("ProjectEmployees")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -195,7 +195,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Project", b =>
                 {
-                    b.Navigation("EmployeeProjects");
+                    b.Navigation("ProjectEmployees");
                 });
 #pragma warning restore 612, 618
         }

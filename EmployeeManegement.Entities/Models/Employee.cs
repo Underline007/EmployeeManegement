@@ -17,12 +17,12 @@ namespace EmployeeManegement.Entities.Models
         public string Name { get; set; } = string.Empty;
         [ForeignKey("DepartmentId")]
         public Guid DepartmentId { get; set; }
-        
+        public virtual Department? Department { get; set; }
         [Required]
         public DateTime JoinedDate { get; set; }
         [Required]
-        public Salary Salary { get; set; }
+        public virtual Salary? Salary { get; set; }
 
-        public ICollection<ProjectEmployee> EmployeeProjects { get; set; } = new List<ProjectEmployee>();
+        public virtual ICollection<ProjectEmployee>? EmployeeProjects { get; set; } = new List<ProjectEmployee>();
     }
 }

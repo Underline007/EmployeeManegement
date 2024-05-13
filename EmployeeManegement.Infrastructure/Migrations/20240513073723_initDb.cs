@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeManegement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDb : Migration
+    public partial class initDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectEmployee",
+                name: "ProjectEmployees",
                 columns: table => new
                 {
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -67,15 +67,15 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectEmployee", x => new { x.ProjectId, x.EmployeeId });
+                    table.PrimaryKey("PK_ProjectEmployees", x => new { x.ProjectId, x.EmployeeId });
                     table.ForeignKey(
-                        name: "FK_ProjectEmployee_Employees_EmployeeId",
+                        name: "FK_ProjectEmployees_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectEmployee_Projects_ProjectId",
+                        name: "FK_ProjectEmployees_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -83,7 +83,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Salary",
+                name: "Salaries",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -92,9 +92,9 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Salary", x => x.Id);
+                    table.PrimaryKey("PK_Salaries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Salary_Employees_EmployeeId",
+                        name: "FK_Salaries_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
@@ -106,10 +106,10 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1def100b-e1e9-4aef-b534-839d5e7ee4a7"), "Finance" },
-                    { new Guid("b0f12c80-3ff3-4cf9-a814-a789292722d9"), "Accountant" },
-                    { new Guid("b2410611-bb5b-4e02-afdf-b40008a31332"), "HR" },
-                    { new Guid("ed7392fc-b1f3-4b89-935d-a9dd4bd6fb41"), "Software Development" }
+                    { new Guid("7eaa3433-27a6-4fa4-963a-2d07263fb4c2"), "HR" },
+                    { new Guid("8b68641b-9f8e-44aa-8c17-4045448207db"), "Finance" },
+                    { new Guid("bbfb665f-49a9-4cff-bf12-9cf019ffb9b6"), "Software Development" },
+                    { new Guid("df9614b6-be5d-41e5-aaca-286ed8529fbf"), "Accountant" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -118,13 +118,13 @@ namespace EmployeeManegement.Infrastructure.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectEmployee_EmployeeId",
-                table: "ProjectEmployee",
+                name: "IX_ProjectEmployees_EmployeeId",
+                table: "ProjectEmployees",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Salary_EmployeeId",
-                table: "Salary",
+                name: "IX_Salaries_EmployeeId",
+                table: "Salaries",
                 column: "EmployeeId",
                 unique: true);
         }
@@ -133,10 +133,10 @@ namespace EmployeeManegement.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProjectEmployee");
+                name: "ProjectEmployees");
 
             migrationBuilder.DropTable(
-                name: "Salary");
+                name: "Salaries");
 
             migrationBuilder.DropTable(
                 name: "Projects");

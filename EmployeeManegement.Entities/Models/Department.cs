@@ -15,7 +15,7 @@ namespace EmployeeManegement.Entities.Models
         [Required]
         [MaxLength(30, ErrorMessage = "Max length of name is 30 characters" )]
         public string Name { get; set; } = string.Empty;
-        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        public virtual ICollection<Employee>? Employees { get; set; } = new List<Employee>();
 
     }
 }
