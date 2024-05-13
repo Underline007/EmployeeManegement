@@ -129,7 +129,7 @@ namespace EmployeeManegement.Presentation.Controllers
             }
         }
 
-        [HttpGet("department")]
+        [HttpGet("attachdepartment")]
         public async Task<IActionResult> GetAllEmployeesWithDepartment()
         {
             try
@@ -144,7 +144,7 @@ namespace EmployeeManegement.Presentation.Controllers
             }
         }
 
-        [HttpGet("withprojects")]
+        [HttpGet("attachprojects")]
         public async Task<IActionResult> GetAllEmployeesWithProjects()
         {
             try
@@ -159,7 +159,7 @@ namespace EmployeeManegement.Presentation.Controllers
             }
         }
 
-        [HttpGet("withsalaryandjoineddate")]
+        [HttpGet("filtersalaryandjoineddate")]
         public async Task<IActionResult> GetEmployeesWithSalaryAndJoinedDate(decimal minSalary, DateTime minJoinedDate)
         {
             try
