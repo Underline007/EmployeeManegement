@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace EmployeeManegement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initDb : Migration
+    public partial class UpdateSeedDataToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -99,17 +97,6 @@ namespace EmployeeManegement.Infrastructure.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Departments",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("7eaa3433-27a6-4fa4-963a-2d07263fb4c2"), "HR" },
-                    { new Guid("8b68641b-9f8e-44aa-8c17-4045448207db"), "Finance" },
-                    { new Guid("bbfb665f-49a9-4cff-bf12-9cf019ffb9b6"), "Software Development" },
-                    { new Guid("df9614b6-be5d-41e5-aaca-286ed8529fbf"), "Accountant" }
                 });
 
             migrationBuilder.CreateIndex(

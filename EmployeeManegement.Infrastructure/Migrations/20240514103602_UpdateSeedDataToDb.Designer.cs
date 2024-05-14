@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManegement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513073723_initDb")]
-    partial class initDb
+    [Migration("20240514103602_UpdateSeedDataToDb")]
+    partial class UpdateSeedDataToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,28 +39,6 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("bbfb665f-49a9-4cff-bf12-9cf019ffb9b6"),
-                            Name = "Software Development"
-                        },
-                        new
-                        {
-                            Id = new Guid("8b68641b-9f8e-44aa-8c17-4045448207db"),
-                            Name = "Finance"
-                        },
-                        new
-                        {
-                            Id = new Guid("df9614b6-be5d-41e5-aaca-286ed8529fbf"),
-                            Name = "Accountant"
-                        },
-                        new
-                        {
-                            Id = new Guid("7eaa3433-27a6-4fa4-963a-2d07263fb4c2"),
-                            Name = "HR"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
@@ -143,23 +121,25 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
                 {
-                    b.HasOne("EmployeeManegement.Entities.Models.Department", null)
+                    b.HasOne("EmployeeManegement.Entities.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.ProjectEmployee", b =>
                 {
                     b.HasOne("EmployeeManegement.Entities.Models.Employee", "Employee")
-                        .WithMany("EmployeeProjects")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EmployeeManegement.Entities.Models.Project", "Project")
-                        .WithMany("ProjectEmployees")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -187,7 +167,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
                 {
-                    b.Navigation("EmployeeProjects");
+                    b.Navigation("EmployeeProject");
 
                     b.Navigation("Salary")
                         .IsRequired();
@@ -195,7 +175,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Project", b =>
                 {
-                    b.Navigation("ProjectEmployees");
+                    b.Navigation("EmployeeProject");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using EmployeeManegement.Entities.Models;
+﻿using EmployeeManegement.Application.Dtos;
+using EmployeeManegement.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace EmployeeManegement.Application.Interfaces
         Task Update(XClass entity);
         Task Delete(Guid id);
         bool Save();
-        Task<IEnumerable<Employee>> GetAllEmployeesWithDepartment(); 
-        Task<IEnumerable<Employee>> GetAllEmployeesWithProjects(); 
+        Task<IEnumerable<EmployeeDepartmentDto>> GetAllEmployeesWithDepartment(); 
+        Task<IEnumerable<EmployeeProjectDto>> GetAllEmployeesWithProjects(); 
         Task<IEnumerable<Employee>> GetEmployeesWithSalaryAndJoinedDate(decimal minSalary, DateTime minJoinedDate); 
     }
 }

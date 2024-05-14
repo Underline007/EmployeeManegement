@@ -23,6 +23,6 @@ namespace EmployeeManegement.Entities.Models
         [Required]
         public virtual Salary? Salary { get; set; }
 
-        public virtual ICollection<ProjectEmployee>? EmployeeProjects { get; set; } = new List<ProjectEmployee>();
+        public virtual ICollection<ProjectEmployee>? EmployeeProject { get; set; } = new List<ProjectEmployee>();
     }
 }

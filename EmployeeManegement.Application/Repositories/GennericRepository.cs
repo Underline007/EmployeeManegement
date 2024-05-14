@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManegement.Entities.Models;
 using EmployeeManegement.Infrastructure.Data;
+using EmployeeManegement.Application.Dtos;
+using Microsoft.Data.SqlClient;
 
 namespace EmployeeManegement.Application.Repositories
 {
@@ -29,7 +31,7 @@ namespace EmployeeManegement.Application.Repositories
                     transaction.Commit();
                     Save();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     throw;
@@ -95,38 +97,63 @@ namespace EmployeeManegement.Application.Repositories
             return saved > 0 ? true : false;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployeesWithDepartment()
+        public async Task<IEnumerable<EmployeeDepartmentDto>> GetAllEmployeesWithDepartment()
         {
-            var employeesWithDepartment = await (from employee in _context.Set<Employee>()
-                                                 join department in _context.Set<Department>() on employee.DepartmentId equals department.Id
-                                                 select new
-                                                 {
-                                                     Employee = employee,
-                                                     DepartmentName = department.Name
-                                                 }).ToListAsync();
+            var query = @"
+                        SELECT e.Id, e.Name, e.DepartmentId, e.JoinedDate, d.Name AS DepartmentName
+                        FROM Employees e
+                        INNER JOIN Departments d ON e.DepartmentId = d.Id";
 
-            return employeesWithDepartment.Select(x => x.Employee);
+            var result = await _context.Database.ExecuteSqlRawAsync(query);
+
+            var employeesWithDepartment = await _context.Set<Employee>()
+                .FromSqlRaw(query)
+                .Select(e => new EmployeeDepartmentDto
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    DepartmentId = e.DepartmentId,
+                    JoinedDate = e.JoinedDate,
+                    DepartmentName = e.Department.Name
+                }).ToListAsync();
+
+            return employeesWithDepartment;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployeesWithProjects()
+        public async Task<IEnumerable<EmployeeProjectDto>> GetAllEmployeesWithProjects()
         {
-            var employeesWithProjects = await (from employee in _context.Set<Employee>()
-                                               join projectEmployees in _context.Set<ProjectEmployee>() on employee.Id equals projectEmployees.EmployeeId into groupEmployeeProject
-                                               from project in groupEmployeeProject.DefaultIfEmpty()
-                                               select new
-                                               {
-                                                   Employee = employee,
-                                                   Project = project != null ? project.Project : null
-                                               }).ToListAsync();
+            var query = @"
+                        SELECT e.Id AS EmployeeId, e.Name AS EmployeeName, 
+                               p.Id AS ProjectId, p.Name AS ProjectName
+                        FROM Employees e
+                        LEFT JOIN ProjectEmployees pe ON e.Id = pe.EmployeeId
+                        LEFT JOIN Projects p ON pe.ProjectId = p.Id";
 
-            return employeesWithProjects.Select(x => x.Employee);
+            var employeesWithProjects = await _context.Set<ProjectEmployee>()
+                .FromSqlRaw(query)
+                .Select(e => new EmployeeProjectDto
+                {
+                    EmployeeId = e.EmployeeId,
+                    Name = e.Employee.Name,
+                    ProjectId = e.ProjectId,
+                    ProjectName = e.Project.Name
+                    
+                }).ToListAsync();
+
+            return employeesWithProjects;
         }
 
         public async Task<IEnumerable<Employee>> GetEmployeesWithSalaryAndJoinedDate(decimal minSalary, DateTime minJoinedDate)
         {
-            var employeesWithSalaryAndJoinedDate = await (from employee in _context.Set<Employee>()
-                                                          where employee.Salary.EmployeeSalary > minSalary && employee.JoinedDate >= minJoinedDate
-                                                          select employee).ToListAsync();
+            var query = @"
+                        SELECT e.*
+                        FROM Employees e
+                        INNER JOIN Salaries s ON e.Id = s.EmployeeId
+                        WHERE s.EmployeeSalary > {0} AND e.JoinedDate >= {1}";
+
+            var employeesWithSalaryAndJoinedDate = await _context.Employees
+                .FromSqlRaw(query, minSalary, minJoinedDate)
+                .ToListAsync();
 
             return employeesWithSalaryAndJoinedDate;
         }

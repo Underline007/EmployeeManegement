@@ -68,7 +68,6 @@ namespace EmployeeManegement.Presentation.Controllers
                 var newDepartment = new Department
                 {
                     Name = departmentDto.Name,
-                    Employees = departmentDto.Employees
                 };
                 await _departmentRepository.Add(newDepartment);
                 return CreatedAtAction(nameof(GetDepartmentById), new { id = newDepartment.Id }, departmentDto);
@@ -95,7 +94,6 @@ namespace EmployeeManegement.Presentation.Controllers
                     return BadRequest($"Name is not valid");
                 }
                 existingDepartment.Name = departmentDto.Name;
-                existingDepartment.Employees = departmentDto.Employees;
                 await _departmentRepository.Update(existingDepartment);
                 return Ok("Department updated successfully.");
             }

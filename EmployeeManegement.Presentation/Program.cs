@@ -7,6 +7,7 @@ using EmployeeManegement.Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 using EmployeeManegement.Presentation.Controllers;
 using EmployeeManegement.Entities.Models;
+using EmployeeManegement.Infrastructure.Extentions;
 
 namespace EmployeeManegement.Presentation
 {
@@ -38,6 +39,8 @@ namespace EmployeeManegement.Presentation
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            DataSeeder.SeedData(builder.Services.BuildServiceProvider());
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

@@ -36,28 +36,6 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dae8e978-cf66-40bb-8f5a-61a7d47e4e85"),
-                            Name = "Software Development"
-                        },
-                        new
-                        {
-                            Id = new Guid("36cecf00-a31e-4346-ad09-8b019751eb05"),
-                            Name = "Finance"
-                        },
-                        new
-                        {
-                            Id = new Guid("ea612401-ba9c-4f14-b2b1-6f00b5cd37f4"),
-                            Name = "Accountant"
-                        },
-                        new
-                        {
-                            Id = new Guid("9e7a35f9-7d4f-4c7a-9d78-d3a5858f10c2"),
-                            Name = "HR"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
@@ -152,13 +130,13 @@ namespace EmployeeManegement.Infrastructure.Migrations
             modelBuilder.Entity("EmployeeManegement.Entities.Models.ProjectEmployee", b =>
                 {
                     b.HasOne("EmployeeManegement.Entities.Models.Employee", "Employee")
-                        .WithMany("EmployeeProjects")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EmployeeManegement.Entities.Models.Project", "Project")
-                        .WithMany("ProjectEmployees")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -186,7 +164,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
                 {
-                    b.Navigation("EmployeeProjects");
+                    b.Navigation("EmployeeProject");
 
                     b.Navigation("Salary")
                         .IsRequired();
@@ -194,7 +172,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Project", b =>
                 {
-                    b.Navigation("ProjectEmployees");
+                    b.Navigation("EmployeeProject");
                 });
 #pragma warning restore 612, 618
         }

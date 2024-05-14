@@ -11,6 +11,5 @@ namespace EmployeeManegement.Application.Dtos
     {
         public Guid EmployeeId { get; set; }
         public decimal EmployeeSalary { get; set; }
-        public Employee? Employee { get; set; }
     }
 }

@@ -61,16 +61,16 @@ namespace EmployeeManegement.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProject(ProjectDto  projectDto)
+        public async Task<IActionResult> CreateProject(ProjectDto projectDto)
         {
             try
             {
                 var newProject = new Project
                 {
-                    
-                    Name = projectDto.Name
-            
+                    Name = projectDto.Name,
+                    EmployeeProject = projectDto.EmployeeIds?.Select(id => new ProjectEmployee { EmployeeId = id }).ToList()
                 };
+
                 await _projectRepository.Add(newProject);
                 return CreatedAtAction(nameof(GetProjectById), new { id = newProject.Id }, projectDto);
             }
@@ -81,24 +81,27 @@ namespace EmployeeManegement.Presentation.Controllers
             }
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProject(Guid id, ProjectDto projectDto)
         {
             try
             {
-              
                 var existingProject = await _projectRepository.GetById(id);
                 if (existingProject == null)
                 {
                     return NotFound($"Project with Id: {id} not found");
                 }
-                if (projectDto.Name == "")
+                if (string.IsNullOrWhiteSpace(projectDto.Name))
                 {
-                    return BadRequest($"Name is not valid");
+                    return BadRequest("Name must not be null or empty");
                 }
+
                 existingProject.Name = projectDto.Name;
+                existingProject.EmployeeProject = projectDto.EmployeeIds?.Select(eid => new ProjectEmployee { ProjectId = id, EmployeeId = eid }).ToList();
+
                 await _projectRepository.Update(existingProject);
-                return Ok("Project edit successfully.");
+                return Ok("Project updated successfully.");
             }
             catch (Exception ex)
             {
@@ -106,6 +109,7 @@ namespace EmployeeManegement.Presentation.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(Guid id)

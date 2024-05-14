@@ -13,6 +13,7 @@ namespace EmployeeManegement.Application.Dtos
         [Required]
         [MaxLength(30, ErrorMessage = "Max length of name is 30 characters")]
         public string Name { get; set; } = string.Empty;
-        public ICollection<ProjectEmployee>? ProjectEmployees { get; set; }
+        public List<Guid>? EmployeeIds { get; set; }
+
     }
 }

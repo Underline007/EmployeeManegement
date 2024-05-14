@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -50,7 +51,7 @@ namespace EmployeeManegement.Presentation.Controllers
                 }
                 else
                 {
-                    return NotFound($"Can not find employee with Id: {id}");
+                    return NotFound($"Cannot find employee with Id: {id}");
                 }
             }
             catch (Exception ex)
@@ -69,11 +70,10 @@ namespace EmployeeManegement.Presentation.Controllers
                 {
                     Name = employeeDto.Name,
                     DepartmentId = employeeDto.DepartmentId,
-                    Department = employeeDto.Department,
                     JoinedDate = employeeDto.JoinedDate,
-                    Salary = employeeDto.Salary,
-                    EmployeeProjects = employeeDto.EmployeeProjects
+                    EmployeeProject = employeeDto.ProjectIds?.Select(id => new ProjectEmployee { ProjectId = id }).ToList()
                 };
+
                 await _employeeRepository.Add(newEmployee);
                 return CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployee.Id }, employeeDto);
             }
@@ -94,16 +94,16 @@ namespace EmployeeManegement.Presentation.Controllers
                 {
                     return NotFound($"Employee with Id: {id} not found");
                 }
-                if (employeeDto.Name == "")
+                if (string.IsNullOrWhiteSpace(employeeDto.Name))
                 {
-                    return BadRequest($"Name is not valid");
+                    return BadRequest("Name must not be null or empty");
                 }
+
                 existingEmployee.Name = employeeDto.Name;
                 existingEmployee.DepartmentId = employeeDto.DepartmentId;
-                existingEmployee.Department = employeeDto.Department;
                 existingEmployee.JoinedDate = employeeDto.JoinedDate;
-                existingEmployee.Salary = employeeDto.Salary;
-                existingEmployee.EmployeeProjects = employeeDto.EmployeeProjects;
+                existingEmployee.EmployeeProject = employeeDto.ProjectIds?.Select(pid => new ProjectEmployee { ProjectId = pid, EmployeeId = id }).ToList();
+
                 await _employeeRepository.Update(existingEmployee);
                 return Ok("Employee updated successfully.");
             }
@@ -173,5 +173,6 @@ namespace EmployeeManegement.Presentation.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
     }
 }

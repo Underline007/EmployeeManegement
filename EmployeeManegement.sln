@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManegement.Presentation", "EmployeeManegement.Presentation\EmployeeManegement.Presentation.csproj", "{19F7AEB9-FA79-4742-840E-D2C5A10CD517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManegement.API", "EmployeeManegement.Presentation\EmployeeManegement.API.csproj", "{19F7AEB9-FA79-4742-840E-D2C5A10CD517}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManegement.Entities", "EmployeeManegement.Entities\EmployeeManegement.Entities.csproj", "{081F5775-375A-48BC-83B1-C1360698B55C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManegement.Entities", "EmployeeManegement.Entities\EmployeeManegement.Entities.csproj", "{081F5775-375A-48BC-83B1-C1360698B55C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManegement.Infrastructure", "EmployeeManegement.Infrastructure\EmployeeManegement.Infrastructure.csproj", "{B6E11E24-B1F6-4598-916A-55CB0FE6131C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManegement.Infrastructure", "EmployeeManegement.Infrastructure\EmployeeManegement.Infrastructure.csproj", "{B6E11E24-B1F6-4598-916A-55CB0FE6131C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManegement.Application", "EmployeeManegement.Application\EmployeeManegement.Application.csproj", "{69BDF64B-C633-42EA-8E68-13052CC6FAE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManegement.Application", "EmployeeManegement.Application\EmployeeManegement.Application.csproj", "{69BDF64B-C633-42EA-8E68-13052CC6FAE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

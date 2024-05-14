@@ -22,13 +22,7 @@ namespace EmployeeManegement.Infrastructure.Data
 
             modelBuilder.Entity<ProjectEmployee>().HasKey(pe => new { pe.ProjectId, pe.EmployeeId });
 
-            // Seed data for Department
-            modelBuilder.Entity<Department>().HasData(
-                new Department { Id = Guid.NewGuid(), Name = "Software Development" },
-                new Department { Id = Guid.NewGuid(), Name = "Finance" },
-                new Department { Id = Guid.NewGuid(), Name = "Accountant" },
-                new Department { Id = Guid.NewGuid(), Name = "HR" }
-            );
+            
         }
     }
 }
