@@ -16,6 +16,6 @@ namespace EmployeeManegement.Entities.Models
         [Required]
         public decimal EmployeeSalary { get; set; }
         [Required]
-        public Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
     }
 }

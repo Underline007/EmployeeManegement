@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManegement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240510061653_InitDb")]
-    partial class InitDb
+    [Migration("20240514103602_UpdateSeedDataToDb")]
+    partial class UpdateSeedDataToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,28 +39,6 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ed7392fc-b1f3-4b89-935d-a9dd4bd6fb41"),
-                            Name = "Software Development"
-                        },
-                        new
-                        {
-                            Id = new Guid("1def100b-e1e9-4aef-b534-839d5e7ee4a7"),
-                            Name = "Finance"
-                        },
-                        new
-                        {
-                            Id = new Guid("b0f12c80-3ff3-4cf9-a814-a789292722d9"),
-                            Name = "Accountant"
-                        },
-                        new
-                        {
-                            Id = new Guid("b2410611-bb5b-4e02-afdf-b40008a31332"),
-                            Name = "HR"
-                        });
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
@@ -118,7 +96,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ProjectEmployee");
+                    b.ToTable("ProjectEmployees");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Salary", b =>
@@ -138,28 +116,30 @@ namespace EmployeeManegement.Infrastructure.Migrations
                     b.HasIndex("EmployeeId")
                         .IsUnique();
 
-                    b.ToTable("Salary");
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
                 {
-                    b.HasOne("EmployeeManegement.Entities.Models.Department", null)
+                    b.HasOne("EmployeeManegement.Entities.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.ProjectEmployee", b =>
                 {
                     b.HasOne("EmployeeManegement.Entities.Models.Employee", "Employee")
-                        .WithMany("EmployeeProjects")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EmployeeManegement.Entities.Models.Project", "Project")
-                        .WithMany("EmployeeProjects")
+                        .WithMany("EmployeeProject")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -187,7 +167,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Employee", b =>
                 {
-                    b.Navigation("EmployeeProjects");
+                    b.Navigation("EmployeeProject");
 
                     b.Navigation("Salary")
                         .IsRequired();
@@ -195,7 +175,7 @@ namespace EmployeeManegement.Infrastructure.Migrations
 
             modelBuilder.Entity("EmployeeManegement.Entities.Models.Project", b =>
                 {
-                    b.Navigation("EmployeeProjects");
+                    b.Navigation("EmployeeProject");
                 });
 #pragma warning restore 612, 618
         }
